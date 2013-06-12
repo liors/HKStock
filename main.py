@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for
 import os
 from pymongo import MongoClient, Connection
 from random import randrange
+from urlparse import urlparse
 
 # configuration
 DEBUG = True
@@ -13,16 +14,17 @@ if MONGO_URL:
   connection = Connection(MONGO_URL)
   # Get the database
   db = connection[urlparse(MONGO_URL).path[1:]]
-  collection = db.app16268900
 else:
   # Not on an app with the MongoHQ add-on, do some localhost action
   print 'Not on an app with the MongoHQ add-on, do some localhost action'
   client = MongoClient()
   db = client.video_database
-  collection = db.test
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+
+collection = db.test
 
 @app.route('/')
 def main():    
