@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for
-from pymongo import MongoClient
+import os
+from pymongo import MongoClient, Connection
 from random import randrange
 
 # configuration
@@ -9,11 +10,22 @@ SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
 
+MONGO_URL = os.environ.get('MONGOHQ_URL')
+ 
+if MONGO_URL:
+  # Get a connection
+  connection = Connection(MONGO_URL)
+  # Get the database
+  db = connection[urlparse(MONGO_URL).path[1:]]
+else:
+  # Not on an app with the MongoHQ add-on, do some localhost action
+  client = MongoClient()
+  db = client.video_database
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-client = MongoClient()
-db = client.video_database
+
 collection = db.test
 
 @app.route('/')
