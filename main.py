@@ -13,12 +13,14 @@ PASSWORD = 'default'
 MONGO_URL = os.environ.get('MONGOHQ_URL')
  
 if MONGO_URL:
+  print MONGO_URL
   # Get a connection
   connection = Connection(MONGO_URL)
   # Get the database
   db = connection[urlparse(MONGO_URL).path[1:]]
 else:
   # Not on an app with the MongoHQ add-on, do some localhost action
+  print 'Not on an app with the MongoHQ add-on, do some localhost action'
   client = MongoClient()
   db = client.video_database
 
