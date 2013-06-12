@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="jumbotron">
+    <h2>HobbyKing.com Stock Finder</h2>
+    <p class="lead">Find your RC products from hobbyking.com, check stock level and prices. </p>
+    <a class="btn btn-large btn-success" href="#">Get started today</a>
+  </div>
+
+   <hr>
+
+  <!-- Example row of columns -->
+  <div class="row-fluid">
+  	{% for i in range(3) %}
+		<div class="span4">
+			<a class="main-btn" href="/product/{{ data[i].id }}">
+	      		<h2>{{ data[i].description }}</h2>
+	      		<img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>
+	      	</a>
+	    </div>
+  	{% endfor %}  
+  </div>
+
+
+{% endblock %}   
