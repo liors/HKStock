@@ -9,22 +9,21 @@ DEBUG = True
 MONGO_URL = os.environ.get('MONGOHQ_URL')
  
 if MONGO_URL:
-  print MONGO_URL
-  # Get a connection
-  connection = Connection(MONGO_URL)
-  # Get the database
-  db = connection[urlparse(MONGO_URL).path[1:]]
+	print MONGO_URL
+  	# Get a connection
+  	connection = Connection(MONGO_URL)
+  	# Get the database
+  	db = connection[urlparse(MONGO_URL).path[1:]]
 else:
-  # Not on an app with the MongoHQ add-on, do some localhost action
-  print 'Not on an app with the MongoHQ add-on, do some localhost action'
-  client = MongoClient()
-  db = client.video_database
+  	# Not on an app with the MongoHQ add-on, do some localhost action
+  	print 'Not on an app with the MongoHQ add-on, do some localhost action'
+  	client = MongoClient()
+  	db = client.video_database
+
+collection = db.test
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
-
-collection = db.test
 
 @app.route('/')
 def main():    
@@ -32,6 +31,10 @@ def main():
 	offset = randrange( 1, count )
 	data = collection.find({ 'img' : { '$exists' : True }}).skip(offset).limit(3)
 	return render_template('index.html', data = data)
+
+@app.route('/products')
+def products_page():
+	return render_template('products.html', page = 1, data = collection.find()[1:10])
 
 @app.route('/products/p/<int:page_id>')
 def products(page_id):

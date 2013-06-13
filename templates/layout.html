@@ -1,6 +1,8 @@
 <!doctype html>
 <title>Flaskr</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+<head>
+  {% block head %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <style type="text/css">
       body {
         padding-top: 20px;
@@ -50,6 +52,8 @@
       	text-decoration: none;
       }       
     </style>
+  {% endblock %}
+</head>
 
 <div class="masthead">
     

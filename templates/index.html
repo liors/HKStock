@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
 {% block body %}
   <div class="jumbotron">
     <h2>HobbyKing.com Stock Finder</h2>
@@ -8,17 +14,20 @@
 
    <hr>
 
-  <!-- Example row of columns -->
-  <div class="row-fluid">
-  	{% for i in range(3) %}
+  <div class="row">
+    {% for i in range(3) %}
 		<div class="span4">
-			<a class="main-btn" href="/product/{{ data[i].id }}">
-	      		<h2>{{ data[i].description }}</h2>
-	      		<img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>
-	      	</a>
-	    </div>
-  	{% endfor %}  
+		  <a class="main-btn" href="/product/{{ data[i].id }}">
+	      		<h3>{{ data[i].description }}</h3>
+	   </a>
+	  </div>    
+    {% endfor %}  
   </div>
-
-
+  <div class="row">
+    {% for i in range(3) %}
+    <div class="span4">
+      <img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>
+    </div>    
+    {% endfor %}  
+  </div>
 {% endblock %}   
