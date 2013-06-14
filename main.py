@@ -3,6 +3,8 @@ import os
 from pymongo import MongoClient, Connection
 from random import randrange
 from urlparse import urlparse
+import json
+from bson import json_util
 
 # configuration
 DEBUG = True
@@ -28,8 +30,10 @@ app.config.from_object(__name__)
 @app.route('/')
 def main():    
 	count  = collection.find({ 'img' : { '$exists' : True }}).count()
-	offset = randrange( 1, count )
-	data = collection.find({ 'img' : { '$exists' : True }}).skip(offset).limit(3)
+	data = []
+	data.append(collection.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
+	data.append(collection.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
+	data.append(collection.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
 	return render_template('index.html', data = data)
 
 @app.route('/products')
@@ -47,6 +51,23 @@ def products(page_id):
 @app.route('/product/<int:product_id>')
 def product(product_id):
 	return render_template('product.html', product = collection.find_one({'id' : product_id}))
+
+@app.route('/search/<query>')	
+def search(query):
+	results = collection.find({ 'description' : {"$regex": query}})
+	return toJson(fromMongoToAPI(results))
+
+def fromMongoToAPI(data):
+	json_results = []
+	for result in data:
+		obj = {}
+		obj['description'] = result[u'description']
+		obj['id'] = result[u'id']
+		json_results.append(obj)
+	return json_results
+	
+def toJson(data):
+	return json.dumps(data, default=json_util.default)
 
 @app.errorhandler(404)
 def page_not_found(e):
