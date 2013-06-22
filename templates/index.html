@@ -1,16 +1,28 @@
 {% extends "layout.html" %}
 {% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+    <script src="{{ url_for('static', filename='search.js') }}"></script>
     {{ super() }}
     <style type="text/css">
-        .important { color: #336699; }
+        .search { width: 410px; }
     </style>
 {% endblock %}
 {% block body %}
   <div class="jumbotron">
     <h2>HobbyKing.com Stock Finder</h2>
     <p class="lead">Find your RC products from hobbyking.com, check stock level and prices. </p>
-    <a class="btn btn-large btn-success" href="#">Get started today</a>
   </div>
+
+  <div lang="en" ng-app="myApp" ng-controller="MainCtrl" style="width:410px; margin:0 auto">  
+      <my-autocomplete remote-data="Wrapper.AutoComplete(request, response)" 
+              min-input="2" restrict="true" 
+              selected-item="selectedItem" 
+              placeholder="Serach HobbyKing.com">
+      </my-autocomplete>     
+  </div>
+
+  
 
    <hr>
 

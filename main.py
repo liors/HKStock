@@ -5,6 +5,7 @@ from random import randrange
 from urlparse import urlparse
 import json
 from bson import json_util
+import urllib2
 
 # configuration
 DEBUG = True
@@ -50,11 +51,20 @@ def products(page_id):
 
 @app.route('/product/<int:product_id>')
 def product(product_id):
-	return render_template('product.html', product = collection.find_one({'id' : product_id}))
+	product = collection.find_one({'id' : product_id})
+	return render_template('product.html', product=product)
+
+@app.route('/productInfo/<int:product_id>')
+def productPrice(product_id):
+	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=3"	
+	price = "$" + urllib2.urlopen(api).read();
+	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=1"	
+	stock = urllib2.urlopen(api).read();
+	return toJson({"price" : price, "stock" : stock})
 
 @app.route('/search/<query>')	
 def search(query):
-	results = collection.find({ 'description' : {"$regex": query}})
+	results = collection.find({ 'description' : {"$regex": query, "$options" : "-i" }})[1:10]
 	return toJson(fromMongoToAPI(results))
 
 def fromMongoToAPI(data):
