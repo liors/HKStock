@@ -2,44 +2,54 @@
 {% block head %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/localStorageModule.js') }}"></script>
     <script src="{{ url_for('static', filename='search.js') }}"></script>
+    <script src="{{ url_for('static', filename='service.js') }}"></script>
+
     {{ super() }}
-    <style type="text/css">
-        .search { width: 410px; }
-    </style>
 {% endblock %}
+{% block body_class%}index{% endblock %}
 {% block body %}
-  <div class="jumbotron">
-    <h2>HobbyKing.com Stock Finder</h2>
-    <p class="lead">Find your RC products from hobbyking.com, check stock level and prices. </p>
+<div class="jumbotron">
+  <h2>HobbyKing.com Stock Finder</h2>
+  <p class="lead">Find your RC products from hobbyking.com, check stock level and prices. </p>
+</div>
+
+<div ng-app="myApp" ng-controller="SearchCtrl" class="search">
+  <div style="width:510px; margin:0 auto">
+  <input type="text" ng-model="searchTerm" placeholder="((placeholder))" ng-change="change()" 
+                   tabindex="1" accesskey="s" class="input-large search-query" style="width:510px" focused="focused">
+  </div>                
+
+  <hr ng-show="showSearchDivider">
+
+  <ul class="thumbnails">
+    <li class="span3" ng-repeat="product in products">
+      <div class="thumbnail">
+        <a class="main-link" href="/product/((product.id))">
+          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"></img>
+          <p>((product.description))</p>
+        </a>
+      </div>
+    </li>
+  </ul>
+
+  <div ng-show="main">
+    <hr>
+    <ul class="thumbnails">
+      {% for i in range(3) %}
+    	<li class="span4">
+        <div class="thumbnail">
+          <a class="main-link" href="/product/{{ data[i].id }}">
+          <img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>  		  
+    	     <h3>{{ data[i].description }}</h3>
+    	    </a>       
+        </div>
+      </li>    
+      {% endfor %}  
+    </ul>
   </div>
 
-  <div lang="en" ng-app="myApp" ng-controller="MainCtrl" style="width:410px; margin:0 auto">  
-      <my-autocomplete remote-data="Wrapper.AutoComplete(request, response)" 
-              min-input="2" restrict="true" 
-              selected-item="selectedItem" 
-              placeholder="Serach HobbyKing.com">
-      </my-autocomplete>     
-  </div>
+</div>
 
-  
-
-   <hr>
-
-  <div class="row">
-    {% for i in range(3) %}
-		<div class="span4">
-		  <a class="main-btn" href="/product/{{ data[i].id }}">
-	      		<h3>{{ data[i].description }}</h3>
-	   </a>
-	  </div>    
-    {% endfor %}  
-  </div>
-  <div class="row">
-    {% for i in range(3) %}
-    <div class="span4">
-      <img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>
-    </div>    
-    {% endfor %}  
-  </div>
 {% endblock %}   

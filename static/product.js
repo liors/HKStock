@@ -3,7 +3,7 @@ var app = angular.module('myApp', ['cgBusy', 'ajoslin.promise-tracker']);
 app.config(function($interpolateProvider) { 
       $interpolateProvider.startSymbol('(('); 
       $interpolateProvider.endSymbol('))');
-    });
+});
 
 function ProductCtrl($scope, $http, $timeout) {
   $scope.product = {}  
@@ -13,13 +13,11 @@ function ProductCtrl($scope, $http, $timeout) {
           .success(function(data) {
                 $scope.product.price = data.price;
                 $scope.product.stock = data.stock;
-                if (data.stock > 0) {
-                  $scope.status = "info";
-                } else {
+                if (data.stock <= 0) {
                   $scope.status = "error";
                 }
 
           });
-  }, 1);
+  }, 0);
 }
  

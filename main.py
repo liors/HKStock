@@ -73,6 +73,7 @@ def fromMongoToAPI(data):
 		obj = {}
 		obj['description'] = result[u'description']
 		obj['id'] = result[u'id']
+		obj['img'] = result[u'img']
 		json_results.append(obj)
 	return json_results
 	
