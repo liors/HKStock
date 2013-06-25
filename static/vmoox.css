@@ -2,3 +2,5 @@
 .index .search hr { margin: 30px 0 }
 .index .main-link { color: #2c3e50 }
 .index .main-link:hover { color: #2c3e50 }
+
+.products .thumbnail { width:200px; height:200px }

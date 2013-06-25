@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
 import os
 from pymongo import MongoClient, Connection
 from random import randrange
@@ -39,15 +39,23 @@ def main():
 
 @app.route('/products')
 def products_page():
-	return render_template('products.html', page = 1, data = collection.find()[1:10])
+	return redirect(url_for('products', page_id=1))
 
 @app.route('/products/p/<int:page_id>')
 def products(page_id):
 	if page_id < 1:
 		page_id = 1   
-	page_start = 10 * (page_id - 1) 
-	page_end = 10 * page_id	
-	return render_template('products.html', page = page_id, data = collection.find()[page_start:page_end])
+	page_start = 8 * (page_id - 1) 
+	page_end = 8 * page_id	
+	pages = [1, 2, 3, 4, 5]
+	if page_id > 5:
+		pages = []
+		pages.append(page_id)
+		pages.append(page_id + 1)
+		pages.append(page_id + 2)
+		pages.append(page_id + 3)
+		pages.append(page_id + 4)
+	return render_template('products.html', page = page_id, pages = pages, data = collection.find({ 'img' : { '$exists' : True }})[page_start:page_end])
 
 @app.route('/product/<int:product_id>')
 def product(product_id):
