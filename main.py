@@ -47,14 +47,10 @@ def products(page_id):
 		page_id = 1   
 	page_start = 8 * (page_id - 1) 
 	page_end = 8 * page_id	
-	pages = [1, 2, 3, 4, 5]
-	if page_id > 5:
-		pages = []
-		pages.append(page_id)
-		pages.append(page_id + 1)
-		pages.append(page_id + 2)
-		pages.append(page_id + 3)
-		pages.append(page_id + 4)
+	if page_id < 5:
+		pages = [1, 2, 3, 4, 5]
+	else:
+		pages = [page_id-2, page_id-1, page_id, page_id+1, page_id+2]
 	return render_template('products.html', page = page_id, pages = pages, data = collection.find({ 'img' : { '$exists' : True }})[page_start:page_end])
 
 @app.route('/product/<int:product_id>')

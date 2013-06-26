@@ -20,12 +20,15 @@
 <div class="row">
   <div class="pagination pagination-centered">
     <ul>
+      {% if pages[0] > 1 %}
+      <li><a href="/products/p/{{ pages[0] - 1 }}">←</a></li>
+      {% endif %}
       <li {% if page == pages[0] %} class="active" {% endif %}><a href="/products/p/{{ pages[0] }}">{{ pages[0] }}</a></li>
       <li {% if page == pages[1] %} class="active" {% endif %}><a href="/products/p/{{ pages[1] }}">{{ pages[1] }}</a></li>
       <li {% if page == pages[2] %} class="active" {% endif %}><a href="/products/p/{{ pages[2] }}">{{ pages[2] }}</a></li>
       <li {% if page == pages[3] %} class="active" {% endif %}><a href="/products/p/{{ pages[3] }}">{{ pages[3] }}</a></li>
       <li {% if page == pages[4] %} class="active" {% endif %}><a href="/products/p/{{ pages[4] }}">{{ pages[4] }}</a></li>
-      <li><a href="6">→</a></li>
+      <li><a href="/products/p/{{ pages[4] + 1 }}">→</a></li>
     </ul>
   </div>
 </div>
