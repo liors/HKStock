@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body_class%}user{% endblock %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='user.js') }}"></script>
+    <script src="{{ url_for('static', filename='service.js') }}"></script>    
+{% endblock %}
+{% block body %}
+<div class="jumbotron">
+  <h2>HobbyKing.com Stock Finder</h2>
+  <p class="lead">This is your HobbyKing.com personalized products page.</p>
+</div>
+
+<div ng-app="myApp" ng-controller="UserCtrl">
+  
+
+  <ul class="thumbnails">
+    <li class="span3" ng-repeat="product in products">
+      <div class="thumbnail">
+        <a class="main-link" href="/product/((product.id))">
+          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"></img>
+          <p>((product.description))</p>
+          <p><a href="http://www.hobbyking.com/hobbyking/store/uh_viewitem.asp?idproduct=(( product.id ))&aff=847552" class="btn btn-primary btn-small">Buy Now!</a> <a href="" ng-click="delete(product, $index)" class="btn btn-small">Delete</a></p>
+        </a>
+      </div>
+    </li>
+  </ul>
+
+</div>
+
+{% endblock %}   

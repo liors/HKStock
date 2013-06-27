@@ -1,12 +1,8 @@
 {% extends "layout.html" %}
 {% block head %}
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-    <script src="{{ url_for('static', filename='lib/localStorageModule.js') }}"></script>
-    <script src="{{ url_for('static', filename='search.js') }}"></script>
-    <script src="{{ url_for('static', filename='service.js') }}"></script>
-
     {{ super() }}
+    <script src="{{ url_for('static', filename='search.js') }}"></script>
+    <script src="{{ url_for('static', filename='service.js') }}"></script>    
 {% endblock %}
 {% block body_class%}index{% endblock %}
 {% block body %}
@@ -25,8 +21,8 @@
 
   <ul class="thumbnails">
     <li class="span3" ng-repeat="product in products">
-      <div class="thumbnail">
-        <a class="main-link" href="/product/((product.id))">
+      <div class="thumbnail" ng-click="go(product)">
+        <a class="main-link" href="">
           <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"></img>
           <p>((product.description))</p>
         </a>

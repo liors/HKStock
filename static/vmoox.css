@@ -1,8 +1,8 @@
+.products .thumbnail, .products .user { width:200px; height:200px }
+
 .index .lead { margin-bottom: 30px }
 .index .search hr { margin: 30px 0 }
-.index .main-link { color: #2c3e50 }
-.index .main-link:hover { color: #2c3e50 }
 
-.products .thumbnail { width:200px; height:200px }
-.products .main-link { color: #2c3e50 }
-.products .main-link:hover { color: #2c3e50 }
+.index .main-link, .user .main-link, .products .main-link { color: #2c3e50 }
+.index .main-link:hover, .user .main-link:hover, .products .main-link:hover  { color: #2c3e50 }
+

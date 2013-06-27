@@ -1,16 +1,12 @@
 {% extends "layout.html" %}
 {% block body_class%}product{% endblock %}
 {% block head %}    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-    <script src="{{ url_for('static', filename='lib/promise-tracker.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular-busy.js') }}"></script>
-	<script src="{{ url_for('static', filename='product.js') }}"></script>
+	{{ super() }}    
+    <script src="{{ url_for('static', filename='product.js') }}"></script>
     <script>
     	var Product = {"id" : {{ product.id }}}
     </script>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='lib/angular-busy.css') }}">
-    {{ super() }}    
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='lib/angular-busy.css') }}">    
 {% endblock %}
 {% block body %}
 <div ng-app="myApp" ng-controller="ProductCtrl" class="container">

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 import os
 from pymongo import MongoClient, Connection
 from random import randrange
@@ -41,6 +41,10 @@ def main():
 def products_page():
 	return redirect(url_for('products', page_id=1))
 
+@app.route('/me')
+def user_page():
+	return render_template('user.html')
+
 @app.route('/products/p/<int:page_id>')
 def products(page_id):
 	if page_id < 1:
@@ -68,7 +72,14 @@ def productPrice(product_id):
 
 @app.route('/search/<query>')	
 def search(query):
-	results = collection.find({ 'description' : {"$regex": query, "$options" : "-i" }})[1:10]
+	results = collection.find({ 'description' : {"$regex": query, "$options" : "-i" }})[:]
+	return toJson(fromMongoToAPI(results))
+
+@app.route('/get')	
+def getProduct():
+	product_ids = request.args.get('ids').split(',')
+	print map(int, product_ids)
+	results = collection.find({ 'id' : { "$in": map(int, product_ids)}})[:]
 	return toJson(fromMongoToAPI(results))
 
 def fromMongoToAPI(data):
