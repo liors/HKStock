@@ -6,3 +6,6 @@
 .index .main-link, .user .main-link, .products .main-link { color: #2c3e50 }
 .index .main-link:hover, .user .main-link:hover, .products .main-link:hover  { color: #2c3e50 }
 
+.user .thumbnails p {width: 290px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 5px 0 0 5px}
+.user .thumbnails .action {margin: 15px 0 5px 5px; padding: 0}
+

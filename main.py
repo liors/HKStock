@@ -78,7 +78,6 @@ def search(query):
 @app.route('/get')	
 def getProduct():
 	product_ids = request.args.get('ids').split(',')
-	print map(int, product_ids)
 	results = collection.find({ 'id' : { "$in": map(int, product_ids)}})[:]
 	return toJson(fromMongoToAPI(results))
 
