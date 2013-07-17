@@ -21,7 +21,7 @@
     <li class="span3" ng-repeat="product in products">
       <div class="thumbnail" ng-click="go(product)">
         <a class="main-link" href="">
-          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"></img>
+          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
           <p>((product.description))</p>
         </a>
       </div>
@@ -35,7 +35,7 @@
     	<li class="span4">
         <div class="thumbnail">
           <a class="main-link" href="/product/{{ data[i].id }}">
-          <img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"></img>  		  
+          <img src="http://www.hobbyking.com/hobbyking/store/{{ data[i].img }}"/>
     	     <h3>{{ data[i].description }}</h3>
     	    </a>       
         </div>
