@@ -2,7 +2,6 @@
 {% block body_class%}product{% endblock %}
 {% block head %}    
 	{{ super() }}    
-    <script src="{{ url_for('static', filename='product.js') }}"></script>
     <script>
     	var Product = {"id" : {{ product.id }}}
     </script>
@@ -17,10 +16,12 @@
 			<li ng-bind="product.price" class="text-success"></li>
 			<br>
 			<li>Stock:</li>
-			<li class="text-((status))" ng-bind="product.stock"></li>						
-		</ul>
+			<li class="text-((status))" ng-bind="product.stock"></li>
+            <br>
+            <a ng-click="add(product)">Watch</a>
+        </ul>
 		<hr>
-		<img src="http://www.hobbyking.com/hobbyking/store/{{ product.img }}"></img>		
+		<img src="http://www.hobbyking.com/hobbyking/store/{{ product.img }}"/>
 	</div>
 </div>
 {% endblock %}

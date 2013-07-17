@@ -8,4 +8,21 @@
 
 .user .thumbnails p {width: 290px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 5px 0 0 5px}
 .user .thumbnails .action {margin: 15px 0 5px 5px; padding: 0}
-
+.fb-, .fb-true {
+	z-index: 3300;
+	border: none;
+	margin: 12px 10px 0 0;
+}
+.fb- {
+	background: url(/static/img/fb.png);
+	width: 27px;
+	height: 27px;	
+}
+.fb-true {
+	background-color: #2c3e50;
+	color: white;
+	cursor: auto;
+}
+.fb-true img {
+	margin-left: 5px;
+}

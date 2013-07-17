@@ -2,23 +2,26 @@
 {% block body_class%}user{% endblock %}
 {% block head %}
     {{ super() }}
-    <script src="{{ url_for('static', filename='user.js') }}"></script>
-    <script src="{{ url_for('static', filename='service.js') }}"></script>    
 {% endblock %}
 {% block body %}
 <div class="jumbotron">
-  <h2>HobbyKing.com Stock Finder</h2>
-  <p class="lead">This is your HobbyKing.com personalized products page.</p>
+  <p class="lead"></p>
 </div>
 
-<div ng-app="myApp" ng-controller="UserCtrl">
-  
-
+<div ng-app="myApp" ng-controller="UserCtrl" class="content" ng-cloak>
+    <h2 ng-show="user.connected">
+        Welcome ((user.name)) search for products and add them to your personalized page.
+      <br>
+    </h2>
+    <h2 ng-hide="user.connected">
+        Welcome Guest log in with your Facebook account to personalized your page.
+        <br>
+    </h2>
   <ul class="thumbnails">
     <li class="span4" ng-repeat="product in products">
       <div class="thumbnail">
         <a class="main-link" href="/product/((product.id))">
-          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"></img>
+          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
           <p>((product.description))</p>
         </a>
         <ul class="inline">
