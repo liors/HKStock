@@ -16,8 +16,8 @@
   <ul class="thumbnails">
     <li class="span4" ng-repeat="product in products">
       <div class="thumbnail">
-        <a class="main-link" href="/product/((product.id))">
-          <img width="300" height="250" src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
+        <a class="main-link" ng-href="/product/((product.id))">
+          <img width="300" height="250" ng-src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
           <p>((product.description))</p>
         </a>
         <ul class="inline">
@@ -27,7 +27,7 @@
           <li>Stock:</li>
           <li class="text-((product.status))" ng-bind="product.stock"></li>           
         </ul>
-        <p class="action"><a href="http://www.hobbyking.com/hobbyking/store/uh_viewitem.asp?idproduct=(( product.id ))&aff=847552" class="btn btn-primary btn-small">Buy Now!</a> <a href="" ng-click="delete(product, $index)" class="btn btn-small">Delete</a></p>        
+        <p class="action"><a ng-href="http://www.hobbyking.com/hobbyking/store/uh_viewitem.asp?idproduct=(( product.id ))&aff=847552" class="btn btn-primary btn-small">Buy Now!</a> <a href="" ng-click="delete(product, $index)" class="btn btn-small">Delete</a></p>
     </div>
     </li>
   </ul>

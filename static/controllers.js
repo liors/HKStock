@@ -56,15 +56,17 @@ function ProductCtrl($scope, $http, $timeout, localStorageService) {
 function UserCtrl($scope, $filter, $http, Product, localStorageService, Facebook) {
     var json = localStorageService.get("Search_History");
     var products = JSON.parse(json);
-    products = _.compact(products) + "";
-    $scope.products = Product.query({'ids':products}, function(data) {
-        for (var index in data) {
-            $scope.products[index].price = "Getting latest price...";
-            $scope.products[index].stock = "Getting latest stock level...";
-            getProductData(index, data[index].id)
-        }
-    });
-
+    if (products) {
+        products = _.compact(products) + "";
+        $scope.products = Product.query({'ids':products}, function(data) {
+            for (var index in data) {
+                $scope.products[index].price = "Getting latest price...";
+                $scope.products[index].stock = "Getting latest stock level...";
+                getProductData(index, data[index].id)
+            }
+        });
+    }
+    
     $scope.delete = function(product, idx) {
         $scope.products.splice(idx, 1);
         var json = localStorageService.get('Search_History');
