@@ -26,3 +26,8 @@
 .fb-true img {
 	margin-left: 5px;
 }
+
+.action:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

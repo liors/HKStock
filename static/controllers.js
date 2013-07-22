@@ -27,29 +27,53 @@ function SearchCtrl($scope, $window, Products, localStorageService) {
     }
 }
 
-function ProductCtrl($scope, $http, $timeout, localStorageService) {
+function ProductCtrl($scope, $http, $timeout, $filter, localStorageService) {
     $scope.product = {}
     $scope.status = "info";
+    var json = localStorageService.get('Search_History');
+    var storedIds = [];
+    if (json !== null) {
+        storedIds = JSON.parse(json);
+    }
+    var index = _.indexOf(storedIds, window.Product.id);
     $timeout(function() {
         $http.get('/productInfo/' + window.Product.id, { tracker: 'product' })
             .success(function(data) {
                 $scope.product.price = data.price;
                 $scope.product.stock = data.stock;
                 $scope.product.id = window.Product.id;
+                $scope.product.description = window.Product.description;
+                if (index === -1) {
+                    $scope.product.user = "Add to my watch list";
+                } else {
+                    $scope.product.user = "Remove from my watch list";
+                }
                 if (data.stock <= 0) {
                     $scope.status = "error";
                 }
 
             });
     }, 0);
-    $scope.add = function(obj) {
+
+    $scope.addOrRemove = function(product) {
         var json = localStorageService.get('Search_History');
-        var storedIds = [];
         if (json !== null) {
             storedIds = JSON.parse(json);
         }
-        storedIds.push(obj.id);
-        localStorageService.add('Search_History', JSON.stringify(storedIds));    }
+        var index = _.indexOf(storedIds, product.id);
+        if (index === -1) {
+            storedIds.push(product.id);
+            localStorageService.add('Search_History', JSON.stringify(storedIds));
+            bootbox.alert("Ok. "+ product.description +" is saved in your products page.");
+            $scope.product.user = "Remove from my watch list";
+        } else {
+            var ids = $filter('filter')(storedIds, function(id) {
+                return id != product.id;
+            });
+            localStorageService.add('Search_History', JSON.stringify(ids));
+            $scope.product.user = "Add to my watch list";
+        }
+    }
 
 }
 
