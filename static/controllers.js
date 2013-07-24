@@ -101,6 +101,11 @@ function UserCtrl($scope, $filter, $http, Product, localStorageService, Facebook
         localStorageService.add('Search_History', JSON.stringify(ids));
     }
 
+    $scope.fbLogin = function() {
+        FB.login(function() {
+        }, { perms: 'email' });
+    }
+
     var promise = Facebook.getUser();
     promise.then(function(user) {
         $scope.user = user;

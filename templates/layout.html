@@ -95,8 +95,7 @@
         </ul>        
     	</div>
     </div>
-    <button class="fb-((user.connected)) pull-right" ng-click="logIn()">
-        ((user.name))
+    <button class="fb fb-((user.connected)) pull-right" ng-click="logIn()" ng-bind="user.name">
         <img ng-show="user.connected" ng-src="((user.gravatar))"/>
     </button>         
      </div>

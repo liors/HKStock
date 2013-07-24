@@ -20,6 +20,7 @@ services.factory('Facebook', function($q, $rootScope) {
 
     return {
         getUser: function() {
+            if (FB === undefined) return;
             var deferred = $q.defer();
             FB.getLoginStatus(function(response) {
                 if (response.status == 'connected') {

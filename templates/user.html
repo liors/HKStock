@@ -10,7 +10,11 @@
 
 <div ng-app="myApp" ng-controller="UserCtrl" class="content" ng-cloak>
     <h2 ng-show="user.connected">
-        Welcome ((user.name)) search for products and add them to your personalized page.
+        Welcome <span ng-bind="user.name"> guest,</span> search for products to add them to your personalized page.
+      <br>
+    </h2>
+    <h2 ng-hide="user.connected">
+        Welcome guest,</span> <a href="#" ng-click="fbLogin()">log-in</a> with your facebook account to personalized this page.
       <br>
     </h2>
   <ul class="thumbnails">
@@ -18,7 +22,7 @@
       <div class="thumbnail">
         <a class="main-link" ng-href="/product/((product.id))">
           <img width="300" height="250" ng-src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
-          <p>((product.description))</p>
+          <p ng-bind="product.description"></p>
         </a>
         <ul class="inline">
           <li>Price:</li>

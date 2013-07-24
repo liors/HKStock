@@ -22,7 +22,7 @@
       <div class="thumbnail" ng-click="go(product)">
         <a class="main-link" href="">
           <img width="300" height="250" ng-src="http://www.hobbyking.com/hobbyking/store/((product.img))"/>
-          <p>((product.description))</p>
+          <p ng-bind="product.description"></p>
         </a>
       </div>
     </li>
