@@ -82,6 +82,8 @@ def getProduct():
 @app.route('/user/<int:user_id>')
 def getUserData(user_id):
     user = db.users.find_one({'id' : user_id})
+    if user is None:
+        return toJson({"status":"error"})
     json_results = dict()
     if user[u'products'] is not None:
         product_ids = user[u'products'].split(',')
