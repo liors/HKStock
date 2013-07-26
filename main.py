@@ -84,7 +84,6 @@ def getUserData(user_id):
     user = db.users.find_one({'id' : user_id})
     if user is None:
         db.users.save({ 'id' : user_id})
-        return toJson({"status":"user created"})
     json_results = dict()
     if user[u'products'] is not None:
         product_ids = user[u'products'].split(',')
@@ -98,6 +97,9 @@ def getUserData(user_id):
             obj['img'] = result[u'img']
             products.append(obj)
         json_results['products'] = products
+    else:
+        user = db.users.find_one({'id' : user_id})
+        json_results['user'] = user
     return toJson(json_results)
 
 @app.route('/user/<int:user_id>', methods=['POST'])
