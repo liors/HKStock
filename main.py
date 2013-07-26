@@ -82,18 +82,19 @@ def getProduct():
 @app.route('/user/<int:user_id>')
 def getUserData(user_id):
     user = db.users.find_one({'id' : user_id})
-    product_ids = user[u'products'].split(',')
-    data = db.test.find({ 'id' : { "$in": map(int, product_ids)}})[:]
     json_results = dict()
-    json_results['user'] = user
-    products = []
-    for result in data:
-		obj = {}
-		obj['description'] = result[u'description']
-		obj['id'] = result[u'id']
-		obj['img'] = result[u'img']
-		products.append(obj)
-    json_results['products'] = products
+    if user[u'products'] is not None:
+        product_ids = user[u'products'].split(',')
+        data = db.test.find({ 'id' : { "$in": map(int, product_ids)}})[:]
+        json_results['user'] = user
+        products = []
+        for result in data:
+            obj = {}
+            obj['description'] = result[u'description']
+            obj['id'] = result[u'id']
+            obj['img'] = result[u'img']
+            products.append(obj)
+        json_results['products'] = products
     return toJson(json_results)
 
 @app.route('/user/<int:user_id>/<products>', methods=['POST'])
