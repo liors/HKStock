@@ -28,11 +28,11 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def main():    
-	count  = db.test.find({ 'img' : { '$exists' : True }}).count()
+	count  = db.products.find({ 'img' : { '$exists' : True }}).count()
 	data = []
-	data.append(db.test.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
-	data.append(db.test.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
-	data.append(db.test.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
+	data.append(db.products.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
+	data.append(db.products.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
+	data.append(db.products.find({ 'img' : { '$exists' : True }}).skip(randrange( 1, count )).limit(-1).next())
 	return render_template('index.html', data = data)
 
 @app.route('/products')
@@ -53,11 +53,11 @@ def products(page_id):
 		pages = [1, 2, 3, 4, 5]
 	else:
 		pages = [page_id-2, page_id-1, page_id, page_id+1, page_id+2]
-	return render_template('products.html', page = page_id, pages = pages, data = db.test.find({ 'img' : { '$exists' : True }})[page_start:page_end])
+	return render_template('products.html', page = page_id, pages = pages, data = db.products.find({ 'img' : { '$exists' : True }})[page_start:page_end])
 
 @app.route('/product/<int:product_id>')
 def product(product_id):
-	product = db.test.find_one({'id' : product_id})
+	product = db.products.find_one({'id' : product_id})
 	return render_template('product.html', product=product)
 
 @app.route('/productInfo/<int:product_id>')
@@ -70,13 +70,13 @@ def productPrice(product_id):
 
 @app.route('/search/<query>')	
 def search(query):
-	results = db.test.find({'img' : { '$exists' : True }, 'description' : {"$regex": query, "$options" : "-i" }})[:]
+	results = db.products.find({'img' : { '$exists' : True }, 'description' : {"$regex": query, "$options" : "-i" }})[:]
 	return toJson(fromMongoToAPI(results))
 
 @app.route('/get')	
 def getProduct():
 	product_ids = request.args.get('ids').split(',')
-	results = db.test.find({ 'id' : { "$in": map(int, product_ids)}})[:]
+	results = db.products.find({ 'id' : { "$in": map(int, product_ids)}})[:]
 	return toJson(fromMongoToAPI(results))
 
 @app.route('/user/<int:user_id>')
@@ -86,7 +86,8 @@ def getUserData(user_id):
         return toJson({"status":"error"})
     json_results = dict()
     if user[u'products'] is not None:
-        data = db.test.find({ 'id' : { "$in": map(int, user[u'products'])}})[:]
+        product_ids = user[u'products'].split(',')
+        data = db.products.find({ 'id' : { "$in": map(int, product_ids)}})[:]
         json_results['user'] = user
         products = []
         for result in data:
