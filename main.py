@@ -84,6 +84,7 @@ def getUserData(user_id):
     user = db.users.find_one({'id' : user_id})
     if user is None:
         db.users.save({ 'id' : user_id})
+        user = db.users.find_one({'id' : user_id})
     json_results = dict()
     if user[u'products'] is not None:
         product_ids = user[u'products'].split(',')
@@ -98,7 +99,6 @@ def getUserData(user_id):
             products.append(obj)
         json_results['products'] = products
     else:
-        user = db.users.find_one({'id' : user_id})
         json_results['user'] = user
     return toJson(json_results)
 
