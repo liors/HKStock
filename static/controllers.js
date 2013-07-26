@@ -5,7 +5,7 @@ function SearchCtrl($scope, $window, Products, localStorageService) {
     $scope.showSearchDivider = false;
     $scope.main = true;
     $scope.change = function() {
-        if ($scope.searchTerm.length > 0) {
+        if ($scope.searchTerm.length > 3) {
             $scope.products = Products.query({'query':$scope.searchTerm});
             $scope.showSearchDivider = true;
             $scope.main = false;
@@ -77,7 +77,7 @@ function ProductCtrl($scope, $http, $timeout, $filter, localStorageService) {
 
 }
 
-function UserCtrl($scope, $filter, $http, Product, localStorageService, Facebook) {
+function UserCtrl($scope, $filter, $http, Product, SaveProducts, localStorageService, Facebook, SharedProperties) {
     var json = localStorageService.get("Search_History");
     var products = JSON.parse(json);
     if (products) {
@@ -89,8 +89,21 @@ function UserCtrl($scope, $filter, $http, Product, localStorageService, Facebook
                 getProductData(index, data[index].id)
             }
         });
+        $scope.$on('userSet', function() {
+            SaveProducts.save({'userId':SharedProperties.getUser().id, 'products':products});
+        });
+    } else {
+        $scope.$on('userSet', function() {
+            data = SharedProperties.getUser().products;
+            $scope.products = data;
+            for (var index in data) {
+                $scope.products[index].price = "Getting latest price...";
+                $scope.products[index].stock = "Getting latest stock level...";
+                getProductData(index, data[index].id)
+            }
+        });
     }
-    
+
     $scope.delete = function(product, idx) {
         $scope.products.splice(idx, 1);
         var json = localStorageService.get('Search_History');
@@ -125,10 +138,13 @@ function UserCtrl($scope, $filter, $http, Product, localStorageService, Facebook
     }
 }
 
-function NavCtrl($scope, Facebook) {
+function NavCtrl($scope, User,  Facebook, SharedProperties) {
     var promise = Facebook.getUser();
-    promise.then(function(user) {
-        $scope.user = user;
+    promise.then(function(fbUser) {
+        User.get({'userId':fbUser.id}, function(data) {
+            SharedProperties.setUser(data);
+        });
+        $scope.user = fbUser;
     }, function(reason) {
         alert('Failed: ' + reason);
     });

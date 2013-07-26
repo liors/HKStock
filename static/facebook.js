@@ -9,6 +9,7 @@ services.factory('Facebook', function($q, $rootScope) {
     resolve = function(errval, retval, deferred) {
         $rootScope.$apply(function() {
             if (errval) {
+                errval.connected = false;
                 deferred.reject(errval);
             } else {
                 retval.connected = true;
@@ -40,7 +41,7 @@ services.factory('Facebook', function($q, $rootScope) {
                 }
             });
             promise = deferred.promise;
-            promise.connected = true;
+            promise.connected = false;
             return promise;
         }
     };

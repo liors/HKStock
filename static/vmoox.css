@@ -10,6 +10,7 @@
 .user .thumbnails .action {margin: 15px 0 5px 5px; padding: 0}
 
 .fb {
+    display: none;
 	background: url(/static/img/fb.png);
     border: none;
 	width: 27px;
@@ -29,7 +30,7 @@
 	margin-left: 5px;
 }
 
-.fb-false {
+.fb- {
     display: inline;
 }
 
