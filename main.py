@@ -83,7 +83,8 @@ def getProduct():
 def getUserData(user_id):
     user = db.users.find_one({'id' : user_id})
     if user is None:
-        return toJson({"status":"error"})
+        db.users.save({ 'id' : user_id})
+        return toJson({"status":"user created"})
     json_results = dict()
     if user[u'products'] is not None:
         product_ids = user[u'products'].split(',')
