@@ -86,8 +86,7 @@ def getUserData(user_id):
         return toJson({"status":"error"})
     json_results = dict()
     if user[u'products'] is not None:
-        product_ids = user[u'products'].split(',')
-        data = db.test.find({ 'id' : { "$in": map(int, product_ids)}})[:]
+        data = db.test.find({ 'id' : { "$in": map(int, user[u'products'])}})[:]
         json_results['user'] = user
         products = []
         for result in data:
@@ -99,9 +98,9 @@ def getUserData(user_id):
         json_results['products'] = products
     return toJson(json_results)
 
-@app.route('/user/<int:user_id>/<products>', methods=['POST'])
-def saveUserProducts(user_id, products):
-    result = db.users.update({ 'id' : user_id}, { '$set': { 'products': products }}, True)
+@app.route('/user/<int:user_id>', methods=['POST'])
+def saveUserProducts(user_id):
+    result = db.users.update({ 'id' : user_id}, { '$set': { 'products': json.loads(request.data)['products'] }}, True)
     return toJson({"status" : "ok"})
 
 def fromMongoToAPI(data):

@@ -12,8 +12,8 @@ services.factory('User', function($resource) {
     return $resource('/user/:userId', {userId:'@userId'});
 });
 
-services.factory('SaveProducts', function($resource) {
-    return $resource('/user/:userId/:products', {userId:'@userId', products:'@products'});
+services.factory('UserProducts', function($resource) {
+    return $resource('/user/:userId', {userId:'@userId'});
 });
 
 services.factory('SharedProperties', function($rootScope) {

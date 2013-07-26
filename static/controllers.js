@@ -77,7 +77,7 @@ function ProductCtrl($scope, $http, $timeout, $filter, localStorageService) {
 
 }
 
-function UserCtrl($scope, $filter, $http, Product, SaveProducts, localStorageService, Facebook, SharedProperties) {
+function UserCtrl($scope, $filter, $http, Product, UserProducts, localStorageService, Facebook, SharedProperties) {
     var json = localStorageService.get("Search_History");
     var products = JSON.parse(json);
     if (products) {
@@ -90,7 +90,10 @@ function UserCtrl($scope, $filter, $http, Product, SaveProducts, localStorageSer
             }
         });
         $scope.$on('userSet', function() {
-            SaveProducts.save({'userId':SharedProperties.getUser().id, 'products':products});
+            var userProducts = new UserProducts();
+            userProducts.userId = SharedProperties.getUser().user.id;
+            userProducts.products = products;
+            userProducts.$save();
         });
     } else {
         $scope.$on('userSet', function() {
