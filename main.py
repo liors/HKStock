@@ -70,8 +70,9 @@ def productPrice(product_id):
 
 @app.route('/search/<query>')	
 def search(query):
-	results = db.products.find({'img' : { '$exists' : True }, 'description' : {"$regex": query, "$options" : "-i" }})[:]
-	return toJson(fromMongoToAPI(results))
+	text_results = db.command('text', 'products', search=query, limit=20)
+	doc_matches = (res['obj'] for res in text_results['results'])
+	return toJson(fromMongoToAPI(doc_matches))
 
 @app.route('/get')	
 def getProduct():
