@@ -9,19 +9,17 @@ import urllib2
 
 # configuration
 DEBUG = True
-MONGO_URL = os.environ.get('MONGOHQ_URL')
 MONGOLAB_URI = os.environ.get('MONGOLAB_URI')
  
 if MONGOLAB_URI:
 	print MONGOLAB_URI
-	MONGOLAB_URI = 'mongodb://vmoox:xoomv@ds027668.mongolab.com:27668/vmooxandsearch'
-  	# Get a connection
+	# Get a connection
   	connection = Connection(MONGOLAB_URI)
   	# Get the database
   	db = connection[urlparse(MONGOLAB_URI).path[1:]]
 else:
-  	# Not on an app with the MongoHQ add-on, do some localhost action
-  	print 'Not on an app with the MongoHQ add-on, do some localhost action'
+  	# Not on an app with the MongoLab add-on, do some localhost action
+  	print 'Not on an app with the MongoLab add-on, do some localhost action'
   	client = MongoClient()
   	db = client.video_database
 
