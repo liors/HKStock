@@ -6,6 +6,7 @@ from urlparse import urlparse
 import json
 from bson import json_util
 import urllib2
+from bs4 import BeautifulSoup
 
 # configuration
 DEBUG = True
@@ -62,10 +63,14 @@ def product(product_id):
 
 @app.route('/productInfo/<int:product_id>')
 def productPrice(product_id):
-	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=3"	
-	price = "$" + urllib2.urlopen(api).read();
-	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=1"	
-	stock = urllib2.urlopen(api).read();
+	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=3"
+	output = urllib2.urlopen(api).read();
+	soup = BeautifulSoup(output, 'html5lib')
+	price = ''.join(soup.body(text=True)[0])
+	api = "http://www.hobbyking.com/hobbyking_api.asp?id=" + str(product_id) + "+&switch=1"
+	output = urllib2.urlopen(api).read();
+	soup = BeautifulSoup(output, 'html5lib')
+	stock = ''.join(soup.body(text=True)[0])
 	return toJson({"price" : price, "stock" : stock})
 
 @app.route('/search/<query>')	
